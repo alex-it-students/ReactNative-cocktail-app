@@ -1,109 +1,92 @@
 import * as React from 'react';
-import {
-    FlatList,
-    Text,
-    View,
-    Image,
-    StyleSheet
-} from 'react-native';
+import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from 'expo-status-bar';
-import UserInfo
-    from "./Components/UserInfo";
-import Cocktails
-    from "./Components/Cocktails";
-import {
-    useEffect,
-    useState
-} from "react";
-import Details
-    from "./Components/Details";
 
-function HomeScreen() {
+import UserInfo from "./Components/UserInfo";
+import Cocktails from "./Components/Cocktails";
+import Details from "./Components/Details";
+import Home from "./Components/Home";
+import {FontAwesome5} from "@expo/vector-icons";
 
-    const [randomCocktail, setRandomCocktail] = useState([])
-    useEffect(() => {
-
-        const addCocktail = (data) => {
-            setRandomCocktail(prevState => [...prevState, data]);
-        }
-        const cocktails = async () => {
-            const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-            const data = await response.json();
-
-            await addCocktail(data.drinks);
-            return data.drinks;
-        }
-
-        for (let i = 1; i < 11; i++) {
-            //on récupère un cocktail aléatoire
-            cocktails().then(r=> console.log(r)).catch(e=>console.log(e))
-        }
-    }, [])
-
-  return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <FlatList
-            data={randomCocktail}
-            renderItem={ ({item}) =>
-
-                <View
-                style={styles.listContainer}>
-                    <Image
-                        style={{width: 60, height:60}}
-                        source={{uri: `${item[0].strDrinkThumb}`}}
-                    />
-                    <Text
-                        style={{paddingHorizontal:10}}>
-                        {item[0].strDrink}
-                    </Text>
-                </View>
-        }
-        />
-      </View>
-  );
-}
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function App() {
-  return (
-      <NavigationContainer>
-        <StatusBar style="auto" />
+const HomeScreen = () => {
+    return (
+      <Home styles={styles}/>
+    );
+}
+const UserScreen = () => {
+    return (
+        <UserInfo styles={styles}/>
+    );
+}
+const CocktailsScreen = () => {
+    return (
+        <Cocktails styles={styles}/>
+    );
+}
+const DetailScreen = () => {
+    return (
+        <Details styles={styles} homeTabs={HomeTabs} userScreen={UserScreen} cocktailsScreen={CocktailsScreen}/>
+    );
+}
+
+const HomeTabs = () => {
+    return (
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Details" component={DetailScreen} />
+            </Stack.Navigator>
+    );
+}
+const App = () => {
+
+    return (
+        <>
+            <StatusBar style="auto"/>
+        <NavigationContainer>
         <Tab.Navigator
-            screenOptions={{
+            screenOptions={({route}) =>({
+                tabBarIcon: ({focused, color, size}) => {
+                let iconName;
+                    if(route.name === 'Home') {
+                iconName = focused ? 'home' : 'home';
+            } else if (route.name === 'Cocktails'){
+                        iconName = focused ? 'cocktail' : 'cocktail';
+            } else if (route.name === 'User'){
+                        iconName = focused ? 'user-alt' : 'user-alt';
+            }
+                    return <FontAwesome5 name={iconName} size={size} color={color}/>
+                },
                 headerShown: false
-            }}>
-          <Tab.Screen name="Home" component={HomeScreen} />
+            })
+            }
+            tabBarOptions={{
+                    activeTintColor: 'black',
+                    inactiveTintColor: 'gray'
+            }}
+        >
+            <Tab.Screen name="Home" component={HomeTabs} />
             <Tab.Screen name="Cocktails" component={CocktailsScreen} />
-          <Tab.Screen name="User" component={UserScreen} />
+            <Tab.Screen name="User" component={UserScreen} />
         </Tab.Navigator>
-      </NavigationContainer>
-  );
+        </NavigationContainer>
+            </>
+    );
 }
 
-function UserScreen() {
-    return (
-        <UserInfo/>
-    );
-}
-function CocktailsScreen() {
-    return (
-        <Cocktails/>
-    );
-}
-function DetailScreen() {
-    return (
-        <Details/>
-    );
-}
+export default App
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        height: '100%'
+        width:'100%'
     },
     listContainer:{
         flex:1,

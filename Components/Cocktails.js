@@ -11,7 +11,6 @@ import React, {
 export default function Cocktails() {
 
 
-
 return (
     <View
         style={{
