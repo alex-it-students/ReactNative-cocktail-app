@@ -23,27 +23,22 @@ export default function Home(props) {
     const [randomCocktail, setRandomCocktail] = useState([])
     const navigation = useNavigation();
 
-
-    const cocktails = async () => {
+    const addCocktail = async () => {
         const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
         const data = await response.json();
-        await addCocktail(data.drinks);
-        return data.drinks;
-    }
-    const addCocktail = (data) => {
-        setRandomCocktail(prevState => [...prevState, data]);
+        setRandomCocktail(prevState => [...prevState, data.drinks]);
     }
     const moreCocktails = () => {
         for (let i = 1; i < 11; i++) {
             //on récupère un cocktail aléatoire
-            cocktails().then(r => console.log(r)).catch(e => console.log(e))
+            addCocktail().then(r => console.log(r)).catch(e => console.log(e))
         }
     }
 
     useEffect(() => {
         for (let i = 1; i < 11; i++) {
             //on récupère un cocktail aléatoire
-            cocktails().then(r=> console.log(r)).catch(e=>console.log(e))
+            addCocktail().then(r=> console.log(r)).catch(e=>console.log(e))
         }
     }, [])
 
@@ -68,7 +63,7 @@ export default function Home(props) {
                         </TouchableOpacity>
                     )}
                     onEndReached={moreCocktails}
-                    onEndReachedThreshold={0.5}
+                    onEndReachedThreshold={1}
                 />
             </View>
     );

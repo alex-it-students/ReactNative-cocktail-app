@@ -51,11 +51,21 @@ console.log(recipe && recipe)
         fetchCocktail().then().catch();
     }, [id]);
 
+    const renderItem = ({ item }) => (
+        <View style={styles.ingredientItem}>
+            <Text style={styles.ingredientTitle}>{item.ingredient}</Text>
+            <Text style={styles.ingredientMeasure}>{item.measure}</Text>
+        </View>
+    );
+
     return (
         <View style={styles.detailContainer}>
             {cocktail && (
                 <>
-                    <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <TouchableOpacity
+                        style={styles.backButton}
+                        onPress={() => navigation.goBack()}
+                    >
                         <Ionicons name="chevron-back" size={24} color="white" />
                         <Text style={styles.backButtonText}>Back</Text>
                     </TouchableOpacity>
@@ -63,87 +73,97 @@ console.log(recipe && recipe)
                         style={{ width: 200, height: 200 }}
                         source={{ uri: `${cocktail.strDrinkThumb}` }}
                     />
-                    <Text style={{ fontSize: 24, fontWeight: 'bold', paddingVertical: 20 }}>
+                    <Text
+                        style={{
+                            fontSize: 24,
+                            fontWeight: "bold",
+                            paddingVertical: 20,
+                        }}
+                    >
                         {cocktail.strDrink}
                     </Text>
 
-                    <View style={styles.recipeContainer}>
-                        <Text style={styles.title}>Ingredients</Text>
-                        <View style={styles.ingredientsContainer}>
-                            <FlatList
-                                data={recipe}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({ item }) => (
-                                    <View style={styles.ingredientItem}>
-                                        <Text style={styles.ingredientTitle}>{item.ingredient}</Text>
-                                        <Text style={styles.ingredientMeasure}>{item.measure}</Text>
-                                    </View>
-                                )}
-                                contentContainerStyle={styles.flatListContent}
-                            />
-                        </View>
-                        <Text style={styles.title}>Recipe</Text>
-                        <Text>{cocktail.strInstructions}</Text>
-                    </View>
+                    <FlatList
+                        data={recipe}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContent}
+                        ListHeaderComponent={
+                            <>
+                                <Text style={styles.ingredientTitle}>
+                                    {cocktail.strCategory}
+                                </Text>
+                                <Text style={styles.title}>Ingredients</Text>
+                            </>
+                        }
+                        ListFooterComponent={
+                            <>
+                                <Text style={styles.title}>Recipe</Text>
+                                <Text>{cocktail.strInstructions}</Text>
+                            </>
+                        }
+                    />
                 </>
             )}
         </View>
     );
 }
 const styles = StyleSheet.create({
+    scrollContainer: {
+        flexGrow: 1,
+    },
     detailContainer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '40%',
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: "40%",
         paddingHorizontal: 10,
     },
     recipeContainer: {
-        flex: 1,
-        alignItems: 'center',
+        alignItems: "center",
         paddingTop: 10,
     },
     title: {
         paddingVertical: 15,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     ingredientsContainer: {
         height: 150,
-        width: '100%',
+        width: "100%",
     },
     flatListContent: {
         flexGrow: 1,
     },
     ingredientItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         marginVertical: 3,
     },
     ingredientTitle: {
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     ingredientMeasure: {
         marginLeft: 5,
     },
     backButton: {
-        position: 'absolute',
+        position: "absolute",
         top: 70,
         left: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: 'grey',
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "grey",
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 5,
         zIndex: 1,
     },
     backButtonText: {
-        color: 'white',
+        color: "white",
         marginLeft: 5,
         fontSize: 16,
-        fontWeight: 'bold',
-    }
+        fontWeight: "bold",
+    },
 })
 
 export default Details

@@ -39,7 +39,7 @@ const DetailScreen = () => {
 const HomeTabs = () => {
     return (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Hometab" component={HomeScreen} />
                 <Stack.Screen name="Details" component={DetailScreen} />
             </Stack.Navigator>
     );
@@ -48,35 +48,47 @@ const App = () => {
 
     return (
         <>
-            <StatusBar style="auto"/>
-        <NavigationContainer>
-        <Tab.Navigator
-            screenOptions={({route}) =>({
-                tabBarIcon: ({focused, color, size}) => {
-                let iconName;
-                    if(route.name === 'Home') {
-                iconName = focused ? 'home' : 'home';
-            } else if (route.name === 'Cocktails'){
-                        iconName = focused ? 'cocktail' : 'cocktail';
-            } else if (route.name === 'User'){
-                        iconName = focused ? 'user-alt' : 'user-alt';
-            }
-                    return <FontAwesome5 name={iconName} size={size} color={color}/>
-                },
-                headerShown: false
-            })
-            }
-            tabBarOptions={{
-                    activeTintColor: 'black',
-                    inactiveTintColor: 'gray'
-            }}
-        >
-            <Tab.Screen name="Home" component={HomeTabs} />
-            <Tab.Screen name="Cocktails" component={CocktailsScreen} />
-            <Tab.Screen name="User" component={UserScreen} />
-        </Tab.Navigator>
-        </NavigationContainer>
-            </>
+            <StatusBar
+                style="auto"/>
+            <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={({route}) => ({
+                        tabBarIcon: ({
+                                         focused,
+                                         color,
+                                         size
+                                     }) => {
+                            let iconName;
+                            if (route.name === 'Home') {
+                                iconName = focused ? 'home' : 'home';
+                            } else if (route.name === 'Cocktails') {
+                                iconName = focused ? 'cocktail' : 'cocktail';
+                            } else if (route.name === 'User') {
+                                iconName = focused ? 'user-alt' : 'user-alt';
+                            }
+                            return <FontAwesome5
+                                name={iconName}
+                                size={size}
+                                color={color}/>
+                        },
+                        headerShown: false,
+                        activeTintColor: 'black',
+                        inactiveTintColor: 'gray'
+                    })
+                    }
+                >
+                    <Tab.Screen
+                        name="Home"
+                        component={HomeTabs}/>
+                    <Tab.Screen
+                        name="Cocktails"
+                        component={CocktailsScreen}/>
+                    <Tab.Screen
+                        name="User"
+                        component={UserScreen}/>
+                </Tab.Navigator>
+            </NavigationContainer>
+        </>
     );
 }
 
