@@ -26,7 +26,7 @@ const UserInfoView = () => {
 
 const FavoriteView = () => {
     return (
-        <View>
+        <View style={styles.content}>
             <Text>Favorite View is coming soon...</Text>
         </View>
     )
@@ -50,7 +50,7 @@ const UserInfo = () => {
                     flexDirection: "row",
                     alignSelf:'center',
                     justifyContent: "center",
-
+                    marginTop:  20,
                     backgroundColor: "rgba(255, 255, 255, 0.55)",
                     padding: 5,
                     borderRadius: 10,
@@ -79,8 +79,7 @@ const UserInfo = () => {
                             styles.menuContainer,
                             toggleFavMenu === true ? styles.selectedMenu : null,
                         ]}
-                    >
-                        My Favorite cocktails
+                    >Favorite cocktails
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -136,7 +135,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5
     },
     selectedMenu: {
-        backgroundColor: '#467eac',
+        backgroundColor: 'brown',
         color:'white',
         padding:1,
         borderRadius: 5,
