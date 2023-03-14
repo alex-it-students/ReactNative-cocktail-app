@@ -72,8 +72,7 @@ const App = () => {
                                 color={color}/>
                         },
                         headerShown: false,
-                        activeTintColor: 'black',
-                        inactiveTintColor: 'gray'
+                        tabBarActiveTintColor: 'black'
                     })
                     }
                 >
