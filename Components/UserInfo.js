@@ -1,8 +1,39 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from "react-native";
+import React, {
+    useState
+} from "react";
 
+const UserInfoView = () => {
+    return (
+        <View style={styles.content}>
+            <Text style={styles.infoTitle}>Name:</Text>
+            <Text style={styles.infoText}>John Doe</Text>
+            <Text style={styles.infoTitle}>Email:</Text>
+            <Text style={styles.infoText}>johndoe@mail.com</Text>
+            <Text style={styles.infoTitle}>Address:</Text>
+            <Text style={styles.infoText}>78 route de Paris, 69260 Charbonnières, France</Text>
+            <Text style={styles.infoTitle}>Phone:</Text>
+            <Text style={styles.infoText}>04 50 50 38 49</Text>
+        </View>
+    )
+}
+
+const FavoriteView = () => {
+    return (
+        <View>
+            <Text>Favorite View is coming soon...</Text>
+        </View>
+    )
+}
 
 const UserInfo = () => {
+    const [toggleFavMenu, setToggleFavMenu] = useState(false)
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -11,20 +42,55 @@ const UserInfo = () => {
                 resizeMode="cover"
             >
                 <View style={styles.overlay}>
-                    <Text style={styles.title}>User Info</Text>
+                    <Text style={styles.title}>User</Text>
                 </View>
             </ImageBackground>
-            <View style={styles.content}>
-                <Text style={styles.infoTitle}>Name:</Text>
-                <Text style={styles.infoText}>John Doe</Text>
-                <Text style={styles.infoTitle}>Email:</Text>
-                <Text style={styles.infoText}>johndoe@mail.com</Text>
-                <Text style={styles.infoTitle}>Address:</Text>
-                <Text style={styles.infoText}>78 route de Paris, 69260 Charbonnières, France</Text>
-                <Text style={styles.infoTitle}>Phone:</Text>
-                <Text style={styles.infoText}>04 50 50 38 49</Text>
+            <View
+                style={{
+                    flexDirection: "row",
+                    alignSelf:'center',
+                    justifyContent: "center",
+
+                    backgroundColor: "rgba(255, 255, 255, 0.55)",
+                    padding: 5,
+                    borderRadius: 10,
+                    width:'70%'
+                }}
+            >
+                <TouchableOpacity
+                    title="User Informations"
+                    onPress={() => setToggleFavMenu(false)}
+                >
+                    <Text
+                        style={[
+                            styles.menuContainer,
+                            toggleFavMenu === false ? styles.selectedMenu : null,
+                        ]}
+                    >
+                        User Informations
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    title="My Favorite cocktails"
+                    onPress={() => setToggleFavMenu(true)}
+                >
+                    <Text
+                        style={[
+                            styles.menuContainer,
+                            toggleFavMenu === true ? styles.selectedMenu : null,
+                        ]}
+                    >
+                        My Favorite cocktails
+                    </Text>
+                </TouchableOpacity>
             </View>
+            {toggleFavMenu === false ? (
+                <UserInfoView />
+            ) : (
+                <FavoriteView />
+            )}
         </View>
+
     );
 };
 
@@ -66,6 +132,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 15,
     },
+    menuContainer: {
+        paddingHorizontal: 5
+    },
+    selectedMenu: {
+        backgroundColor: '#467eac',
+        color:'white',
+        padding:1,
+        borderRadius: 5,
+        fontWeight: 'bold'
+    }
 });
 
 export default UserInfo;
