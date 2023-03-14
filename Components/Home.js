@@ -3,8 +3,7 @@ import {
     useState
 } from "react";
 import {
-    useNavigation,
-    useRoute
+    useNavigation
 } from "@react-navigation/native";
 import {
     FlatList,
@@ -23,7 +22,6 @@ export default function Home(props) {
     const {styles} = props
     const [randomCocktail, setRandomCocktail] = useState([])
     const navigation = useNavigation();
-    const route = useRoute();
 
     const addCocktail = async () => {
         const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
@@ -33,14 +31,14 @@ export default function Home(props) {
     const moreCocktails = () => {
         for (let i = 1; i < 11; i++) {
             //on récupère un cocktail aléatoire
-            addCocktail().then(r => console.log(r)).catch(e => console.log(e))
+            addCocktail().then(console.log('fetching cocktail...')).catch(e => console.log(e))
         }
     }
 
     useEffect(() => {
         for (let i = 1; i < 11; i++) {
             //on récupère un cocktail aléatoire
-            addCocktail().then(r=> console.log(r)).catch(e=>console.log(e))
+            addCocktail().then(console.log('fetching cocktail...')).catch(e => console.log(e));
         }
     }, [])
 
@@ -53,7 +51,7 @@ export default function Home(props) {
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('Details', { id: item[0].idDrink, navigation, route });}}
+                                navigation.navigate('Details', { id: item[0].idDrink });}}
                         >
                             <View style={styles.listContainer}>
                                 <Image

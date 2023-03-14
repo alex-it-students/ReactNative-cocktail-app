@@ -6,11 +6,16 @@ import {
     StyleSheet,
     TouchableOpacity
 } from "react-native";
-import {useEffect, useState} from "react";
+import {
+    useContext,
+    useEffect,
+    useState
+} from "react";
 import {useRoute, useNavigation} from "@react-navigation/native";
 import {
-    Ionicons
+    FontAwesome5
 } from "@expo/vector-icons";
+
 
 const Details =() => {
 const route = useRoute()
@@ -44,8 +49,6 @@ const route = useRoute()
                 }
             }
             setRecipe(newIngredients);
-            console.log('ici')
-console.log(recipe && recipe)
             setCocktail(data.drinks[0]);
         };
         fetchCocktail().then().catch();
@@ -53,7 +56,9 @@ console.log(recipe && recipe)
 
     const renderItem = ({ item }) => (
         <View style={styles.ingredientItem}>
-            <Text style={styles.ingredientTitle}>{item.ingredient}</Text>
+            <Text style={styles.ingredientTitle}>
+                {item.ingredient}
+            </Text>
             <Text style={styles.ingredientMeasure}>{item.measure}</Text>
         </View>
     );
@@ -66,22 +71,26 @@ console.log(recipe && recipe)
                         style={styles.backButton}
                         onPress={() => navigation.goBack()}
                     >
-                        <Ionicons name="chevron-back" size={24} color="white" />
+                        <FontAwesome5 name="backspace" size={24} color="white" />
                         <Text style={styles.backButtonText}>Back</Text>
                     </TouchableOpacity>
                     <Image
                         style={{ width: 200, height: 200 }}
                         source={{ uri: `${cocktail.strDrinkThumb}` }}
                     />
-                    <Text
-                        style={{
-                            fontSize: 24,
-                            fontWeight: "bold",
-                            paddingVertical: 20,
-                        }}
-                    >
-                        {cocktail.strDrink}
-                    </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text
+                            style={{
+                                fontSize: 24,
+                                fontWeight: 'bold',
+                                paddingVertical: 20,
+                            }}
+                        >
+                            {cocktail.strDrink}
+                        </Text>
+
+                    </View>
+
 
                     <FlatList
                         data={recipe}
@@ -93,7 +102,7 @@ console.log(recipe && recipe)
                                 <Text style={styles.ingredientTitle}>
                                     {cocktail.strCategory}
                                 </Text>
-                                <Text style={styles.title}>Ingredients</Text>
+                                <Text style={styles.ingredientTitle}>Ingredients</Text>
                             </>
                         }
                         ListFooterComponent={
@@ -142,6 +151,8 @@ const styles = StyleSheet.create({
     },
     ingredientTitle: {
         fontWeight: "bold",
+        textAlign: 'center',
+        paddingVertical:10
     },
     ingredientMeasure: {
         marginLeft: 5,

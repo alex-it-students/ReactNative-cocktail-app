@@ -53,13 +53,11 @@ export default function Cocktails() {
 
     useEffect(() => {
         fetchCategories();
-    }, [])
-
-    useEffect(() => {
         if (selectedCategory) {
             fetchCocktails(selectedCategory);
         }
-    }, [selectedCategory]);
+    }, [selectedCategory])
+
 
 return (
     <View style={styles.container}>
@@ -80,7 +78,6 @@ return (
             keyExtractor={item => item.idDrink}
             contentContainerStyle={styles.listContainer}
         />
-
     </View>
 )
 }
