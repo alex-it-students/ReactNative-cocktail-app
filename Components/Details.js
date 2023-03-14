@@ -13,9 +13,9 @@ import {
 } from "@expo/vector-icons";
 
 const Details =() => {
-const route = useRoute();
-const navigation = useNavigation();
-const id = route.params.id
+const route = useRoute()
+    const id = route.params.id
+    const navigation = useNavigation()
     const [cocktail, setCocktail] = useState(null);
     const [recipe, setRecipe] = useState(null);
 

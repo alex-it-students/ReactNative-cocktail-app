@@ -3,7 +3,8 @@ import {
     useState
 } from "react";
 import {
-    useNavigation
+    useNavigation,
+    useRoute
 } from "@react-navigation/native";
 import {
     FlatList,
@@ -22,6 +23,7 @@ export default function Home(props) {
     const {styles} = props
     const [randomCocktail, setRandomCocktail] = useState([])
     const navigation = useNavigation();
+    const route = useRoute();
 
     const addCocktail = async () => {
         const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
@@ -51,7 +53,7 @@ export default function Home(props) {
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('Details', { id: item[0].idDrink });}}
+                                navigation.navigate('Details', { id: item[0].idDrink, navigation, route });}}
                         >
                             <View style={styles.listContainer}>
                                 <Image

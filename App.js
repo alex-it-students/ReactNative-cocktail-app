@@ -82,7 +82,8 @@ const App = () => {
                         component={HomeTabs}/>
                     <Tab.Screen
                         name="Cocktails"
-                        component={CocktailsScreen}/>
+                        component={CocktailsScreen}
+                        options={{unmountOnBlur:false}}/>
                     <Tab.Screen
                         name="User"
                         component={UserScreen}/>
